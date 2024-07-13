@@ -12,6 +12,7 @@ const Cell = (function() {
     };
 })();
 
+
 const Player = (function() {
     return function(name, token) {
         const playerName = name;
@@ -23,6 +24,7 @@ const Player = (function() {
         return { getPlayerName, getPlayerToken };
     }
 })();
+
 
 const Gameboard = (function () {
     const board = [];
@@ -44,20 +46,22 @@ const Gameboard = (function () {
     }
 
     const placeToken = (row, column, player) => {
-        if (row >= 0 && row < sides && column >= 0 && column < sides) {
+        const isValidCoordinate = (value) => Number.isInteger(value) && value >= 0 && value < sides;
+        if (isValidCoordinate(row) && isValidCoordinate(column)) {
             let tokenCell = board[row][column];
             if (tokenCell.getValue() === 0) {
                 tokenCell.addToken(player);
             } else {
-                console.error("This cell is taken");
+                throw new Error("This cell is taken!");
             }
         } else {
-            console.error("Invalid row or column");
+            throw new Error("Invalid row or column input!");
         }
     }
 
     return { makeBoard, printBoardValues, placeToken };
 }) ();
+
 
 const GameControler = (function () {
     return function(player1Name, player1Token, player2Name, player2Token) {
@@ -74,52 +78,55 @@ const GameControler = (function () {
 
         const getActivePlayer = () => activePlayer;
 
-
         const switchPlayer = () => {
             activePlayer = activePlayer === players[0] ? players[1] : players[0];
         }
         
-
         const checkWinRow = (roundValues) => roundValues.some(roundRow => roundRow[0] !== 0 && roundRow.every(roundCell => roundCell === roundRow[0]));
-
 
         const checkWinColumn = (roundValues) => {
             for (let i = 0; i < sides; i++) {
-                if (roundValues[0][i] !== 0 && roundValues[0][i] === roundValues[1][i] && roundValues[1][i] === roundValues[2][i]) {
-                    return true;
-                }
+                const start = roundValues[0][i];
+                if (start === 0) return false;
+
+                if (start === roundValues[1][i] && start === roundValues[2][i]) return true;
             }
 
             return false;
         };
 
-
         const checkWinDiagonal = (roundValues) => {
-            if (roundValues[0][0] !== 0 && roundValues[0][0] === roundValues[1][1] && roundValues[1][1] === roundValues[2][2]) {
-                return true;
-            } else if (roundValues[0][2] !== 0 && roundValues[0][2] === roundValues[1][1] && roundValues[1][1] === roundValues[2][0]) {
-                return true;
-            } else return false;
-        }
+            const center = roundValues[1][1];
+            if (center === 0) return false;
 
+            return (roundValues[0][0] === center && center === roundValues[2][2]) ||
+                    (roundValues[0][2] === center && center === roundValues[2][0]);
+        }
 
         const checkFullBoard = (roundValues) => roundValues.every(roundRow => roundRow.every(roundCell => roundCell !== 0));
 
+        const playRound = () => {
+            try {
+                let row = prompt(`${getActivePlayer().getPlayerName()}'s turn! Please enter row:`);
+                let column = prompt(`${getActivePlayer().getPlayerName()}'s turn! PLease enter column:`);
 
-        const playRound = (row, column) => {
-            Gameboard.placeToken(row, column, getActivePlayer().getPlayerToken());
+                Gameboard.placeToken(parseInt(row), parseInt(column), getActivePlayer().getPlayerToken());
+                
+                let roundValues = Gameboard.printBoardValues();
 
-            let roundValues = Gameboard.printBoardValues();
+                if (checkWinRow(roundValues) || checkWinColumn(roundValues) || checkWinDiagonal(roundValues)) {
+                    console.log(`${getActivePlayer().getPlayerName()} wins!`);
+                    return false; // game is over
+                } else if (checkFullBoard(roundValues)) {
+                    console.log("Tie! Board is full!");
+                    return false; // game is over
+                }
 
-            if (checkWinRow(roundValues) || checkWinColumn(roundValues) || checkWinDiagonal(roundValues)) {
-                console.log(`${getActivePlayer().getPlayerName()} wins!`);
-                return false; // game is over
-            } else if (checkFullBoard(roundValues)) {
-                console.log("Tie! Board is full!");
-                return false; // game is over
-            } else {
                 switchPlayer();
-                Gameboard.printBoardValues();
+                return true;
+                
+            } catch (error) {
+                console.error(error.message);
                 return true;
             }
         }
@@ -127,3 +134,40 @@ const GameControler = (function () {
         return { playRound, getActivePlayer };
     }
 }) ();
+
+
+const PlayGame = (function () {
+    return function () {
+        console.log("Welcome to Tic Tac Toe!");
+        console.log("To make a move, you'll be prompted to enter players' names, tokens, the row and column numbers.");
+        console.log("The board is numbered from 0 to 2 for both rows and columns.");
+
+        setTimeout(() => {
+            let firstPlayerName = prompt("Enter first player name");
+            let firstPlayerToken = prompt("Enter first player token");
+
+            let secondPlayerName = prompt("Enter second player name");
+            let secondPlayerToken = prompt("Enter second player token");
+
+            const game = GameControler(firstPlayerName, firstPlayerToken, secondPlayerName, secondPlayerToken);
+
+            let continueGame = true;
+
+            while (continueGame) {
+                continueGame = game.playRound();
+            }
+
+            let playAgain = prompt("Do you want to play again? yes/no").toLowerCase();
+
+            if (playAgain === "yes") {
+                console.clear();
+                PlayGame();
+            } else {
+                console.log("Thanks for playing!");
+            }
+        }, 5000);
+        }
+}) ();
+
+
+PlayGame();
