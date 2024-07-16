@@ -1,0 +1,141 @@
+body {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.playfair-display-font {
+    font-family: "Playfair Display", serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.caveat-font {
+    font-family: "Caveat", cursive;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 2rem;
+}
+
+header {
+    text-align: center;
+    font-size: 3rem;
+    padding: 1rem;
+}
+
+main {
+    display: grid;
+    grid-template: auto/ 1fr 1fr 1fr;
+    gap: 1rem;
+    align-items: center;
+}
+
+form {
+    padding: 1rem;
+}
+
+.name-input {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    text-align: center;
+}
+
+.name-input input {
+    border-radius: 5px;
+    padding: 5px;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+fieldset {
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+legend {
+    padding: 0.75rem 0;
+    text-align: center;
+
+}
+
+.token-icons input[type="radio"]{
+    position: absolute;
+    opacity: 0;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    bottom: 0;
+    left: 50%;
+}
+
+.token-icons {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.token-icons label {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.token-icons input[type="radio"]:checked + img {
+    transform: scale(1.2);
+    filter: drop-shadow(0 0 5px red);
+}
+
+.token-icons input[type="radio"] + img {
+    transition: 0.5s;
+}
+
+.game-board {
+    display: none;
+    grid-template: 1fr 1fr 1fr/1fr 1fr 1fr;
+    border: solid;
+    width: 24rem;
+    height: 24rem;
+    justify-self: center;
+}
+
+.board-cell {
+    border: solid;
+}
+
+.second-player {
+    grid-column-start: 3;
+}
+
+#start-button {
+    grid-column-start: 2;
+    font-family: "Playfair Display", serif;
+    font-size: 1.5rem;
+    width: 25vw;
+    border-radius: 7px;
+    padding: 0.5rem;
+    justify-self: center;
+}
+
+.first-player-info,
+.second-player-info,
+.message-container {
+    display: none;
+}
+
+.github-account {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Roboto Mono', monospace;
+    color: black;
+    text-decoration: none;
+}
+
+.account-name {
+    color: rgb(203, 0, 0);
+}
