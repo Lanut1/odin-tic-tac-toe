@@ -7,19 +7,23 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="icon" href="src/lemon-tea.png">
     <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400..700&family=Playfair+Display:wght@400..900&display=swap" rel="stylesheet">
     <title>Tic-Tac-Toe</title>
 </head>
 <body>
     <dialog id="result-dialog">
-        <div id="result-message"></div>
-        <button id="restart-game">Start new game</button>
+        <div class="dialog-content">
+            <div id="result-message"></div>
+            <button id="restart-game">Start new game</button>   
+        </div>
     </dialog>
 
     <header>
         <div class="header-title playfair-display-font">Tic Tac Toe</div>
         <div class="header-subtitle caveat-font">Tea VS Coffee</div>
     </header>
+
     <main class="caveat-font">
         <form action="#" method="post" class="first-player">
             <div class="name-input">
@@ -32,17 +36,17 @@
                 <div class="token-icons">
                     <label>
                         <input type="radio" name="coffee-icons" value="coffee">
-                        <img src="src/coffee.png" alt="">
+                        <img src="src/coffee.png" alt="Coffee Icon">
                     </label>
 
                     <label>
                         <input type="radio" name="coffee-icons" value="coffee-pot" required>
-                        <img src="src/coffee-pot.png" alt="">
+                        <img src="src/coffee-pot.png" alt="Coffee Pot Icon">
                     </label>
 
                     <label>
                         <input type="radio" name="coffee-icons" value="coffee-cup">
-                        <img src="src/coffee-cup.png" alt="">
+                        <img src="src/coffee-cup.png" alt="Coffee Cup Icon">
                     </label>
                 </div>
  
@@ -60,29 +64,30 @@
                 <div class="token-icons">
                     <label>
                         <input type="radio" name="tea-icons" value="bubble-tea">
-                        <img src="src/bubble-tea.png" alt="">
+                        <img src="src/bubble-tea.png" alt="Bubble Tea Icon">
                     </label>
 
                     <label>
                         <input type="radio" name="tea-icons" value="lemon-tea" required>
-                        <img src="src/lemon-tea.png" alt="">
+                        <img src="src/lemon-tea.png" alt="Lemon Tea Icon">
                     </label>
 
                     <label>
                         <input type="radio" name="tea-icons" value="green-tea">
-                        <img src="src/green-tea.png" alt="">
+                        <img src="src/green-tea.png" alt="Green Tea Icon">
                     </label> 
                 </div>
  
             </fieldset>
         </form>
+
         <button id="start-button" type="submit">Start game</button>
 
         <div class="first-player-info">
             <div class="first-player-header">First Player</div>
             <div class="first-player-name-container"></div>
             <div class="first-player-token-container">
-                <img src="" alt="" class="first-player-token-image">
+                <img alt="First Player Token" class="first-player-token-image">
             </div>
         </div>
 
@@ -102,21 +107,23 @@
             <div class="second-player-header">Second Player</div>
             <div class="second-player-name-container"></div>
             <div class="second-player-token-container">
-                <img src="" alt="" class="second-player-token-image">
+                <img alt="Second Player Token" class="second-player-token-image">
             </div>
         </div>
 
         <div class="message-container"></div>
-
-
     </main>
+
     <footer>
-        <a href="https://github.com/Lanut1" class="github-account">
-            <h2>Built by</h3>
-            <i class="fa fa-github account-name" style="font-size: 30px;"></i>
-            <h2 class="account-name">Lanut1</h3>
-        </a>
+        <h2>Built by</h2>
+        <div class="footer-container">
+            <a href="https://github.com/Lanut1" class="github-account">
+                <i class="fa fa-github account-name" style="font-size: 30px;"></i>
+                <h2 class="account-name">Lanut1</h2>
+            </a>
+        </div>
     </footer>
+
     <script src="src/script.js"></script>
 </body>
 </html>

@@ -1,18 +1,18 @@
 body {
     margin: 0;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
 }
 
 .playfair-display-font {
     font-family: "Playfair Display", serif;
-    font-optical-sizing: auto;
     font-weight: 400;
     font-style: normal;
 }
 
 .caveat-font {
     font-family: "Caveat", cursive;
-    font-optical-sizing: auto;
     font-weight: 700;
     font-style: normal;
     font-size: 2rem;
@@ -21,7 +21,11 @@ body {
 header {
     text-align: center;
     font-size: 3rem;
-    padding: 1rem;
+    padding: 2rem;
+}
+
+.header-title {
+    color: #DE7A22;
 }
 
 main {
@@ -47,6 +51,9 @@ form {
     padding: 5px;
     font-size: 1.5rem;
     font-weight: bold;
+    width: 20vw;
+    align-self: center;
+    box-shadow: 0 1px 3px;
 }
 
 fieldset {
@@ -58,7 +65,6 @@ fieldset {
 legend {
     padding: 0.75rem 0;
     text-align: center;
-
 }
 
 .token-icons input[type="radio"]{
@@ -85,24 +91,41 @@ legend {
 
 .token-icons input[type="radio"]:checked + img {
     transform: scale(1.2);
-    filter: drop-shadow(0 0 5px red);
+    filter: drop-shadow(0 0 7px #DE7A22);
 }
 
 .token-icons input[type="radio"] + img {
     transition: 0.5s;
 }
 
+@keyframes showBoard {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
 .game-board {
     display: none;
-    grid-template: 1fr 1fr 1fr/1fr 1fr 1fr;
+    grid-template: 1fr 1fr 1fr / 1fr 1fr 1fr;
     border: solid;
-    width: 24rem;
     height: 24rem;
+    width: 24rem;
     justify-self: center;
+    overflow: hidden;
+    width: 0;
+    opacity: 0;
+}
+
+.game-board.show {
+    display: grid;
+    width: 24rem;
+    animation: showBoard 1s forwards;
 }
 
 .board-cell {
     border: solid;
+    display: grid;
+    justify-items: center;
+    align-items: center;
 }
 
 .second-player {
@@ -111,31 +134,247 @@ legend {
 
 #start-button {
     grid-column-start: 2;
+    grid-row-start: 1;
     font-family: "Playfair Display", serif;
     font-size: 1.5rem;
-    width: 25vw;
+    width: 16vw;
     border-radius: 7px;
     padding: 0.5rem;
     justify-self: center;
+    background-color: #F4CC70;
+    color: #DE7A22;
+    transition: 0.7s;
+    border: none;
+    box-shadow: 0 0 10px;
+}
+
+#start-button:hover {
+    cursor: pointer;
+    background-color: #DE7A22;
+    color: #F4CC70;
+    transform: scale(1.1);
 }
 
 .first-player-info,
 .second-player-info,
 .message-container {
     display: none;
+    text-align: center;
 }
 
-.github-account {
-    margin-top: 20px;
+.first-player-header,
+.second-player-header {
+    font-size: 3rem;
+    color: #DE7A22;
+}
+
+.first-player-name-container,
+.second-player-name-container {
+    font-size: 2.5rem;
+    font-weight: bold;
+}
+
+.message-container {
+    grid-column-start: 2;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes scaleIn {
+    from { 
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    to { 
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+@keyframes scaleOut {
+    from {
+        transform: scale(1);
+        opacity: 1;
+    }
+    to {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    
+}
+
+#result-dialog {
+    background-color: transparent;
+    border: none;
+    opacity: 0;
+    transition: opacity 0.7s ease;
+}
+
+#result-dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.7);
+    opacity: 0;
+    transition: opacity 0.7s ease-in-out;
+    backdrop-filter: blur(3px);
+}
+
+#result-dialog.show {
+    animation: scaleIn 0.7s ease forwards;
+}
+
+#result-dialog.show::backdrop {
+    animation: fadeIn 0.7s ease forwards;
+}
+
+#result-dialog.hide {
+    animation: scaleOut 0.7s ease forwards;
+}
+
+#result-dialog.hide::backdrop {
+    animation: fadeOut 0.7s ease forwards;
+}
+
+.dialog-content {
+    opacity: 1;
+    transform: scale(0.9);
+    transition: opacity 1s ease-in-out, transform 1s ease-in-out;
+    text-align: center;
+}
+
+#result-message {
+    text-align: center;
+    font-size: 4rem;
+    font-weight: bold;
+    color: #DE7A22;
+}
+
+#restart-game {
+    font-family: "Playfair Display", serif;
+    font-size: 1.5rem;
+    width: 16vw;
+    border-radius: 7px;
+    padding: 0.5rem;
+    justify-self: center;
+    background-color: #F4CC70;
+    color: #DE7A22;
+    transition: 0.7s;
+    border: none;
+    box-shadow: 0 0 10px;
+}
+
+#restart-game:hover {
+    cursor: pointer;
+    background-color: #DE7A22;
+    color: #F4CC70;
+    transform: scale(1.1);
+}
+
+footer {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 8px;
-    font-family: 'Roboto Mono', monospace;
+    font-family: 'Caveat', cursive ;
+    font-size: 1.5rem;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+}
+
+.github-account {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
     color: black;
     text-decoration: none;
 }
 
 .account-name {
-    color: rgb(203, 0, 0);
+    color: #DE7A22;
+}
+
+@media screen and (max-width: 780px) {
+    header {
+        padding: 1rem;
+        font-size: 2.5rem;
+    }
+
+    main {
+        grid-template: auto/1fr;
+    }
+
+    form {
+        padding: 0 0.75rem;
+    }
+
+    .name-input input {
+        border-radius: 5px;
+        padding: 2px;
+        font-size: 1rem;
+        font-weight: bold;
+        width: 50vw;
+        align-self: center;
+        box-shadow: 0 1px 3px;
+    }
+
+    #start-button {
+        grid-column-start: 1;
+        grid-row-start: 3;
+        font-size: 1.5rem;
+        width: 50vw;
+        border-radius: 7px;
+        padding: 0.5rem;
+    }
+
+    .second-player {
+        grid-column-start: 1;
+        grid-row-start: 2;
+    }
+
+    .message-container {
+        grid-row-start: 1;
+        grid-column-start: 1;
+    }
+
+    .game-board {
+        grid-row-start: 2;
+    }
+
+    .game-board.show {
+        width: 20rem;
+        height: 20rem;
+    }
+
+    .first-player-info,
+    .second-player-info {
+        grid-column-start: 1;
+        gap: 8px;
+        justify-content: center;
+        align-items: center;
+        font-size: 1.5rem;
+    }
+
+    .first-player-header,
+    .second-player-header {
+        font-size: 2rem;
+    }
+
+    #restart-game {
+        font-size: 1.5rem;
+        width: 40vw;
+        border-radius: 7px;
+        padding: 0.5rem;
+    }
+
+    footer {
+        position: relative;
+    }
 }
